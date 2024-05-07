@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.knownyc.R
 import com.example.knownyc.presentation.boroughs.BoroughsScreen
+import com.example.knownyc.presentation.parks.NycParksScreenParent
 
 import com.example.knownyc.presentation.ui.util.scaffold.AppScaffold
 import com.example.knownyc.presentation.ui.util.scaffold.TitleText
@@ -49,8 +50,6 @@ fun AppNavigationGraph(){
     }
 
     navController.addOnDestinationChangedListener{_, destination, _ ->
-        Log.d("nav","nav destination changed to ${destination.route}")
-
         isBackEnabled.value = !destination.route.equals(Routes.HOME_SCREEN)
 
         if(destination.route!!.startsWith(Routes.PARKS_SCREEN,0)){
@@ -61,9 +60,7 @@ fun AppNavigationGraph(){
             title.intValue = R.string.screen_title_home
             showSearchIcon.value = false
             searchClicked.value = false
-
         }
-
     }
 
     AppScaffold(
@@ -94,12 +91,12 @@ fun AppNavigationGraph(){
                 composable(Routes.HOME_SCREEN){
                     BoroughsScreen(onBoroughClicked = { borough, title ->
                         titleArgs.value = title
-                        navController.navigate(Routes.PARKS_SCREEN + "?borough=$borough")
+                        navController.navigate("${Routes.PARKS_SCREEN}/$borough")
                     })
                 }
 
                 composable(
-                    Routes.PARKS_SCREEN + "?borough={borough}",
+                    "${Routes.PARKS_SCREEN}/{borough}",
                     arguments = listOf(
                         navArgument("borough"){
                             type = NavType.StringType
@@ -109,10 +106,9 @@ fun AppNavigationGraph(){
                 {
                     backStackEntry ->
                     //TODO: Project 2
-//                    NycParksScreen(
-//                        boroughCode = backStackEntry.arguments?.getString("borough")!!,
-//                        searchText = searchText.value
-//                    )
+                    NycParksScreenParent(
+                        searchText = searchText.value,
+                    )
                 }
             }
         }

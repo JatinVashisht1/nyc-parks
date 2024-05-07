@@ -8,4 +8,3 @@ data class BoroughsUIState(
     val boroughs: List<Borough> = emptyList(),
     val error: AppError? = null,
 )
-

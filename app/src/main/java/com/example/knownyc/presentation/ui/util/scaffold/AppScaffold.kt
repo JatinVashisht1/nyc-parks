@@ -44,7 +44,6 @@ fun AppScaffold(
                     }
                 }, actions = {
                     if (showSearchIcon) {
-
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "Search",
@@ -66,5 +65,5 @@ fun AppScaffold(
     {
         paddingValues -> content(paddingValues)
     }
-        }
+}
 
